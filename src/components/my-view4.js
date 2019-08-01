@@ -15,6 +15,7 @@ class MyView4 extends PageViewElement {
     this.vehiculos = [];
     this.marcas = [];
     this.modelos = [];
+    this.tipos = [];
     this.fetchModelos = fetch('http://azaryah.sdyalor.me/api/graphql', {
       method: 'POST',
       headers: {
@@ -33,6 +34,24 @@ class MyView4 extends PageViewElement {
     })
       .then(r => r.json())
       .then(data => this.modelos = (data['data']['modelo']));
+    this.fetchTipos = fetch('http://azaryah.sdyalor.me/api/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+     body: JSON.stringify({query: `
+     query {	
+      tipo {
+        codTipo
+        descripcion
+      }
+    
+    }
+     `})
+    })
+      .then(r => r.json())
+      .then(data => this.tipos = (data['data']['tipo']));
     this.fetchVehiculos = fetch('http://azaryah.sdyalor.me/api/graphql', {
       method: 'POST',
       headers: {
@@ -79,7 +98,8 @@ class MyView4 extends PageViewElement {
     return {
       vehiculos: { type: Array},
       marcas: {type: Array},
-      modelos: {type: Array}
+      modelos: {type: Array},
+      tipos: {type: Array}
     };
   }
 
@@ -114,45 +134,34 @@ class MyView4 extends PageViewElement {
        <paper-listbox slot="dropdown-content" selected=3 >
     ${
       html`${
-            this.marcas.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codMarca}</paper-item>`)
+            this.marcas.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codMarca} : ${x.descripcion}</paper-item>`)
             }`
     }
        </paper-listbox>
      </paper-dropdown-menu>
     <!-- End codMarca -->
-    <!-- Marca Detalle -->
-     <paper-dropdown-menu label="descripcion de Array Marcas" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=3 >
-    ${
-      html`${
-            this.marcas.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!-- End Marca Detalle -->
-    <!-- Modelos Detalle -->
+    <!-- Modelos -->
      <paper-dropdown-menu label="codModelo de Array modelos" vertical-offset="60" async>
        <paper-listbox slot="dropdown-content" selected=3 >
     ${
       html`${
-            this.modelos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codModelo}</paper-item>`)
+            this.modelos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codModelo} : ${x.descripcion}</paper-item>`)
             }`
     }
        </paper-listbox>
      </paper-dropdown-menu>
-    <!--End  Modelos Detalle -->
-    <!-- Modelos Detalle -->
-     <paper-dropdown-menu label="descripcion de Array modelos" vertical-offset="60" async>
+    <!--End  Modelos -->
+    <!-- Tipos -->
+     <paper-dropdown-menu label="Array tipos" vertical-offset="60" async>
        <paper-listbox slot="dropdown-content" selected=3 >
     ${
       html`${
-            this.modelos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.descripcion}</paper-item>`)
+            this.tipos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codTipo} : ${x.descripcion}</paper-item>`)
             }`
     }
        </paper-listbox>
      </paper-dropdown-menu>
-    <!--End  Modelos Detalle -->
+    <!--End  Tipos -->
     </section>
      <style>
          button, p {
