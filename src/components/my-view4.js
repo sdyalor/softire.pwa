@@ -12,10 +12,7 @@ class MyView4 extends PageViewElement {
   constructor(){
     super();
     this.value = 1 ;
-    this.myBool = true;
-    this.myArray = ['an','array','of','test','data'];
     this.vehiculos = [];
-    this.boolVehiculos = this.vehiculos.length >2;
     this.fetchVehiculos = fetch('http://azaryah.sdyalor.me/api/graphql', {
       method: 'POST',
       headers: {
@@ -372,78 +369,41 @@ class MyView4 extends PageViewElement {
   }
   static get properties() {
     return {
-      message: { type: String },
-      myBool: { type: Boolean },
-      myArray: { type: Array },
       vehiculos: { type: Array},
-    //  boolVehiculos: {type: Boolean}
     };
   }
-  // decrement() {
-  //   this.value--;
-  //   this._valueChanged();
-  // }
 
-  // increment() {
-  //   this.value++;
-  //   this._valueChanged();
-  // }
-  // _valueChanged() {
-  //   // Fire a custom event for others to listen to
-  //   this.dispatchEvent(new CustomEvent('valueChange', { detail: this.value }));
-  // }
-  clickHandler(event) {
-    console.log(event.target);
-    console.log(this.vehiculos);
-    this.myBool = !this.myBool;
-
-
-  }
-
-  _itemSelected(e) {
-    var selectedItem = e.target.selectedItem;
-    if (selectedItem) {
-      console.log("selected: " + selectedItem.innerText);
-    }
-  }
   render() {
     return html`
+    <style is="custom-style" include="paper-item-shared-styles"></style>
     <section>
-    <p>${this.message}</p>
-    ${this.myBool ?
-      html`<p>Render some HTML if myBool is true</p>` :
-      html`<p>Render some other HTML if myBool is false</p>`}
-    <button @click=${this.clickHandler}>Click</button>
-    <p>this bind: ${this.myBool}</p>
-   <counter-element></counter-element> 
+    <!-- comment -->
      <paper-dropdown-menu label="Neumaticos" vertical-offset="60">
        <paper-listbox slot="dropdown-content" selected=3 >
         ${this.snneumaticosdet.map(item => html`<paper-item @click=${e => console.log(e.target.innerText)}>${item['codNeumatico']}</paper-item>`)}
        </paper-listbox>
      </paper-dropdown-menu>
+    <!-- comment -->
      <paper-dropdown-menu label="Obra" vertical-offset="60">
        <paper-listbox slot="dropdown-content" selected=3 >
         ${this.snneumaticosdet.map(item => html`<paper-item @click=${e => console.log(e.target.innerText)}>${item['codObra']}</paper-item>`)}
        </paper-listbox>
      </paper-dropdown-menu>
+    <!-- comment -->
      <paper-dropdown-menu label="fecha" vertical-offset="60">
        <paper-listbox slot="dropdown-content" selected=3 >
         ${this.snneumaticosdet.map(item => html`<paper-item @click=${e => console.log(e.target.innerText)}>${item['fecha']}</paper-item>`)}
        </paper-listbox>
      </paper-dropdown-menu>
+    <!-- comment -->
      <paper-dropdown-menu label="Evento" vertical-offset="60">
        <paper-listbox slot="dropdown-content" selected=3 >
         ${this.snneumaticosdet.map(item => html`<paper-item @click=${e => console.log(e.target.innerText)}>${item['codEvento']}</paper-item>`)}
        </paper-listbox>
      </paper-dropdown-menu>
-     <paper-dropdown-menu label="Array Vehiculos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=3 >
-       </paper-listbox>
-     </paper-dropdown-menu>
 
-     <style is="custom-style" include="paper-item-shared-styles"></style>
+    <!-- comment -->
 
-     </paper-dropdown-menu>
      <paper-dropdown-menu label="Array Vehiculos" vertical-offset="60" async>
        <paper-listbox slot="dropdown-content" selected=3 >
     ${this.boolVehiculos?
@@ -456,9 +416,6 @@ class MyView4 extends PageViewElement {
      </paper-dropdown-menu>
 
 
-${this.boolVehiculos?html`<p>no hay vehiculos </p>`:html`${this.vehiculos.map(x => html`${x.codVehiculo}`)}`}
-${html`${this.vehiculos.map(x => html`${x.codVehiculo}`)}`}
-
     </section>
      <style>
          button, p {
@@ -467,29 +424,6 @@ ${html`${this.vehiculos.map(x => html`${x.codVehiculo}`)}`}
        </style>
 
   `;
-    // return html`
-    //   <section>
-    //     <h2>Historial de neumaticos</h2>
-    // <paper-dropdown-menu label="Dinosaurs">
-    //   <paper-listbox slot="dropdown-content" >
-    //     <paper-item>allosaurus</paper-item>
-    //     <paper-item>brontosaurus</paper-item>
-    //     <paper-item>carcharodontosaurus</paper-item>
-    //     <paper-item>diplodocus</paper-item>
-    //   </paper-listbox>
-    // </paper-dropdown-menu>
-    // <style>
-    //     button, p {
-    //       display: inline-block;
-    //     }
-    //   </style>
-    //   <button @click=${() => this.decrement()} aria-label="decrement">-</button>
-    //   <p>${this.value}</p>
-    //   <button @click=${() => this.increment()} aria-label="increment">+</button>
-    //   <button @click=${this.clickHandler}>Click</button>
-
-    //   </section>
-    // `
   }
 }
 
