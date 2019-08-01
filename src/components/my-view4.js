@@ -16,78 +16,19 @@ class MyView4 extends PageViewElement {
     this.marcas = [];
     this.modelos = [];
     this.tipos = [];
-    this.fetchModelos = fetch('http://azaryah.sdyalor.me/api/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-     body: JSON.stringify({query: `
-     query {	
-      modelo {
-        codModelo
-        descripcion
-      }
-    
-    }
-     `})
-    })
-      .then(r => r.json())
-      .then(data => this.modelos = (data['data']['modelo']));
-    this.fetchTipos = fetch('http://azaryah.sdyalor.me/api/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-     body: JSON.stringify({query: `
-     query {	
-      tipo {
-        codTipo
-        descripcion
-      }
-    
-    }
-     `})
-    })
-      .then(r => r.json())
-      .then(data => this.tipos = (data['data']['tipo']));
-    this.fetchVehiculos = fetch('http://azaryah.sdyalor.me/api/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-     body: JSON.stringify({query: `
-     query {	
-      vehiculo {
-        codVehiculo
-        placa
-      }
-    
-    }
-     `})
-    })
-      .then(r => r.json())
-      .then(data => this.vehiculos = (data['data']['vehiculo']));
-    this.fetchMarcas = fetch('http://azaryah.sdyalor.me/api/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-     body: JSON.stringify({query: `
-     query {	
-      marca {
-        codMarca
-        descripcion
-      }
-    
-    }
-     `})
-    })
-      .then(r => r.json())
-      .then(data => this.marcas = (data['data']['marca']));
+    this.configuraciones = [];
+    this.fetchURL = `http://azaryah.sdyalor.me/api/graphql`;
+    this.fetchModelos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { modelo { codModelo descripcion } }`})}).then(r => r.json()).then(data => this.modelos = (data['data']['modelo']));
+    this.fetchTipos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { tipo { codTipo descripcion } }`})}).then(r => r.json()).then(data => this.tipos = (data['data']['tipo']));
+    this.fetchVehiculos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { vehiculo { codVehiculo placa } }`})}).then(r => r.json()).then(data => this.vehiculos = (data['data']['vehiculo']));
+    this.fetchMarcas = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { marca { codMarca descripcion } }`})}).then(r => r.json()).then(data => this.marcas = (data['data']['marca']));
+    this.fetchConfiguraciones = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { configuracion { codConfi descripcion } }`})}).then(r => r.json()).then(data => this.configuraciones = (data['data']['configuracion']));
+
   }
   static get styles() {
     return [
@@ -99,7 +40,8 @@ class MyView4 extends PageViewElement {
       vehiculos: { type: Array},
       marcas: {type: Array},
       modelos: {type: Array},
-      tipos: {type: Array}
+      tipos: {type: Array},
+      configuraciones: {type: Array}
     };
   }
 
@@ -157,6 +99,17 @@ class MyView4 extends PageViewElement {
     ${
       html`${
             this.tipos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codTipo} : ${x.descripcion}</paper-item>`)
+            }`
+    }
+       </paper-listbox>
+     </paper-dropdown-menu>
+    <!--End  Tipos -->
+    <!-- Configuraciones -->
+     <paper-dropdown-menu label="Array configuraciones" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" selected=3 >
+    ${
+      html`${
+            this.configuraciones.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codConfi} : ${x.descripcion}</paper-item>`)
             }`
     }
        </paper-listbox>
