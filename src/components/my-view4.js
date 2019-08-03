@@ -13,21 +13,43 @@ class MyView4 extends PageViewElement {
     super();
     this.value = 1 ;
     this.vehiculos = [];
-    this.marcas = [];
-    this.modelos = [];
-    this.tipos = [];
+    this.marcasVehiculo = [];
+    this.modelosVehiculo = [];
+    this.tiposVehiculo = [];
     this.configuraciones = [];
+
+
+    this.neumaticos = [];
+    this.condicionesNeumatico = [];
+    this.disenosNeumatico = [];
+    this.marcaNeumatico = [];
+    this.medidaNeumatico = [];
+    this.modeloNeumatico = [];
     this.fetchURL = `http://azaryah.sdyalor.me/api/graphql`;
-    this.fetchModelos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
-     body: JSON.stringify({query: `query { modelo { codModelo descripcion } }`})}).then(r => r.json()).then(data => this.modelos = (data['data']['modelo']));
-    this.fetchTipos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
-     body: JSON.stringify({query: `query { tipo { codTipo descripcion } }`})}).then(r => r.json()).then(data => this.tipos = (data['data']['tipo']));
+    /*  Fetch fromVehicles */
+    this.fetchModelosVehiculo = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { modeloVehiculo { codModelo descripcion } }`})}).then(r => r.json()).then(data => this.modelosVehiculo = (data['data']['modeloVehiculo']));
+    this.fetchTiposVehiculo = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { tipoVehiculo { codTipo descripcion } }`})}).then(r => r.json()).then(data => this.tiposVehiculo = (data['data']['tipoVehiculo']));
     this.fetchVehiculos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
      body: JSON.stringify({query: `query { vehiculo { codVehiculo placa } }`})}).then(r => r.json()).then(data => this.vehiculos = (data['data']['vehiculo']));
-    this.fetchMarcas = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
-     body: JSON.stringify({query: `query { marca { codMarca descripcion } }`})}).then(r => r.json()).then(data => this.marcas = (data['data']['marca']));
-    this.fetchConfiguraciones = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+    this.fetchMarcasVehiculo = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { marcaVehiculo { codMarca descripcion } }`})}).then(r => r.json()).then(data => this.marcasVehiculo = (data['data']['marcaVehiculo']));
+    this.fetchConfiguracionesVehiculo = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
      body: JSON.stringify({query: `query { configuracion { codConfi descripcion } }`})}).then(r => r.json()).then(data => this.configuraciones = (data['data']['configuracion']));
+     /* Fetch fromTires */
+    this.fetchNeumaticos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { neumaticos { codNeumatico codMarca codModelo codMedida codDiseno estado } }`})}).then(r => r.json()).then(data => this.neumaticos = (data['data']['neumaticos']));
+    this.fetchCondicionesNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { condicionesNeumatico { codCondicion descripcion } }`})}).then(r => r.json()).then(data => this.condicionesNeumatico = (data['data']['condicionesNeumatico']));
+    this.fetchDisenosNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { disenosNeumatico { codDiseno descripcion } }`})}).then(r => r.json()).then(data => this.disenosNeumatico = (data['data']['disenosNeumatico']));
+    this.fetchMarcaNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { marcaNeumatico { codMarca descripcion } }`})}).then(r => r.json()).then(data => this.marcaNeumatico = (data['data']['marcaNeumatico']));
+    this.fetchMedidaNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { medidaNeumatico { codMedida descripcion } }`})}).then(r => r.json()).then(data => this.medidaNeumatico = (data['data']['medidaNeumatico']));
+    this.fetchModeloNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+     body: JSON.stringify({query: `query { modeloNeumatico { codModelo descripcion } }`})}).then(r => r.json()).then(data => this.modeloNeumatico = (data['data']['modeloNeumatico']));
 
   }
   static get styles() {
@@ -38,20 +60,27 @@ class MyView4 extends PageViewElement {
   static get properties() {
     return {
       vehiculos: { type: Array},
-      marcas: {type: Array},
-      modelos: {type: Array},
-      tipos: {type: Array},
-      configuraciones: {type: Array}
+      marcasVehiculo: {type: Array},
+      modelosVehiculo: {type: Array},
+      tiposVehiculo: {type: Array},
+      configuraciones: {type: Array},
+      neumaticos: {type: Array},
+      condicionesNeumatico: {type: Array},
+      disenosNeumatico: {type: Array},
+      marcaNeumatico: {type: Array},
+      medidaNeumatico: {type: Array},
+      modeloNeumatico: {type: Array}
     };
   }
 
   render() {
     return html`
+    <h1>Historial de Neumaticos</h1>
     <style is="custom-style" include="paper-item-shared-styles"></style>
     <section>
-    <!-- codVehiculo -->
-     <paper-dropdown-menu label="Array Vehiculos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=3 >
+    <!-- codVehiculo fromVehicles-->
+     <paper-dropdown-menu label="Vehiculos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
     ${
       html`${
              this.vehiculos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codVehiculo}</paper-item>`)
@@ -59,10 +88,10 @@ class MyView4 extends PageViewElement {
     }
        </paper-listbox>
      </paper-dropdown-menu>
-    <!-- end codVehiculo -->
-    <!-- placa -->
-     <paper-dropdown-menu label="Placa de Array Vehiculos vehiculos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=3 >
+    <!-- end codVehiculo fromVehicles-->
+    <!-- placa fromVehicles-->
+     <paper-dropdown-menu label="Placa de Vehiculos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content"  >
     ${
       html`${
             this.vehiculos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.placa}</paper-item>`)
@@ -70,43 +99,43 @@ class MyView4 extends PageViewElement {
     }
        </paper-listbox>
      </paper-dropdown-menu>
-    <!-- end placa -->
-    <!-- codMarca -->
-     <paper-dropdown-menu label="codMarca de Array Marcas" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=3 >
+    <!-- end placa fromVehicles-->
+    <!-- codMarca fromVehicles-->
+     <paper-dropdown-menu label="Marca de Vehiculos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
     ${
       html`${
-            this.marcas.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codMarca} : ${x.descripcion}</paper-item>`)
+            this.marcasVehiculo.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codMarca} : ${x.descripcion}</paper-item>`)
             }`
     }
        </paper-listbox>
      </paper-dropdown-menu>
-    <!-- End codMarca -->
-    <!-- Modelos -->
-     <paper-dropdown-menu label="codModelo de Array modelos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=3 >
+    <!-- End codMarca fromVehicles-->
+    <!-- Modelos fromVehicles-->
+     <paper-dropdown-menu label="Modelo de Vehiculos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
     ${
       html`${
-            this.modelos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codModelo} : ${x.descripcion}</paper-item>`)
+            this.modelosVehiculo.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codModelo} : ${x.descripcion}</paper-item>`)
             }`
     }
        </paper-listbox>
      </paper-dropdown-menu>
-    <!--End  Modelos -->
-    <!-- Tipos -->
-     <paper-dropdown-menu label="Array tipos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=3 >
+    <!--End  Modelos fromVehicles-->
+    <!-- Tipos fromVehicles-->
+     <paper-dropdown-menu label="Tipo de Vehiculos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
     ${
       html`${
-            this.tipos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codTipo} : ${x.descripcion}</paper-item>`)
+            this.tiposVehiculo.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codTipo} : ${x.descripcion}</paper-item>`)
             }`
     }
        </paper-listbox>
      </paper-dropdown-menu>
-    <!--End  Tipos -->
-    <!-- Configuraciones -->
-     <paper-dropdown-menu label="Array configuraciones" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=3 >
+    <!--End  Tipos fromVehicles-->
+    <!-- Configuraciones fromVehicles -->
+     <paper-dropdown-menu label="Configuraciones de Vehiculo" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
     ${
       html`${
             this.configuraciones.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codConfi} : ${x.descripcion}</paper-item>`)
@@ -114,7 +143,75 @@ class MyView4 extends PageViewElement {
     }
        </paper-listbox>
      </paper-dropdown-menu>
-    <!--End  Tipos -->
+    <!--End  Configurationces fromVehicles -->
+
+
+    <!-- Neumaticos fromTires -->
+     <paper-dropdown-menu label="Neumaticos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
+    ${
+      html`${
+            this.neumaticos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codNeumatico}</paper-item>`)
+            }`
+    }
+       </paper-listbox>
+     </paper-dropdown-menu>
+    <!--End  Neumaticos fromTires -->
+    <!-- Marca de Neumaticos fromTires -->
+     <paper-dropdown-menu label="Marca de Neumaticos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
+    ${
+      html`${
+            this.marcaNeumatico.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codMarca}: ${x.descripcion}</paper-item>`)
+            }`
+    }
+       </paper-listbox>
+     </paper-dropdown-menu>
+    <!--End Marca de Neumaticos fromTires -->
+    <!-- Modelo de Neumaticos fromTires -->
+     <paper-dropdown-menu label="Modelo de Neumaticos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
+    ${
+      html`${
+            this.modeloNeumatico.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codModelo}: ${x.descripcion}</paper-item>`)
+            }`
+    }
+       </paper-listbox>
+     </paper-dropdown-menu>
+    <!--End Modelo de Neumaticos fromTires -->
+    <!-- Medida de Neumaticos fromTires -->
+     <paper-dropdown-menu label="Medida de Neumaticos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
+    ${
+      html`${
+            this.medidaNeumatico.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codMedida}: ${x.descripcion}</paper-item>`)
+            }`
+    }
+       </paper-listbox>
+     </paper-dropdown-menu>
+    <!--End Medida de Neumaticos fromTires -->
+    <!-- Diseno de Neumaticos fromTires -->
+     <paper-dropdown-menu label="Disenos de Neumaticos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
+    ${
+      html`${
+            this.disenosNeumatico.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codDisenos}: ${x.descripcion}</paper-item>`)
+            }`
+    }
+       </paper-listbox>
+     </paper-dropdown-menu>
+    <!--End Disenos de Neumaticos fromTires -->
+    <!-- Condicion de Neumaticos fromTires -->
+     <paper-dropdown-menu label="Condiciones de Neumaticos" vertical-offset="60" async>
+       <paper-listbox slot="dropdown-content" >
+    ${
+      html`${
+            this.condicionesNeumatico.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codCondicion}: ${x.descripcion}</paper-item>`)
+            }`
+    }
+       </paper-listbox>
+     </paper-dropdown-menu>
+    <!--End Condicion de Neumaticos fromTires -->
     </section>
      <style>
          button, p {
