@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { html } from 'lit-element';
 import { PageViewElement } from './page-view-element.js';
 
@@ -6,7 +7,11 @@ import { SharedStyles } from './shared-styles.js';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-listbox/paper-listbox.js';
-import '../../src/components/counter-element.js'
+import '@vaadin/vaadin-grid/vaadin-grid.js';
+import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
+import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
+import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
+
 
 class MyView4 extends PageViewElement {
   constructor(){
@@ -31,15 +36,17 @@ class MyView4 extends PageViewElement {
      body: JSON.stringify({query: `query { modeloVehiculo { codModelo descripcion } }`})}).then(r => r.json()).then(data => this.modelosVehiculo = (data['data']['modeloVehiculo']));
     this.fetchTiposVehiculo = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
      body: JSON.stringify({query: `query { tipoVehiculo { codTipo descripcion } }`})}).then(r => r.json()).then(data => this.tiposVehiculo = (data['data']['tipoVehiculo']));
+     /** historial vehiculos*/
     this.fetchVehiculos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
-     body: JSON.stringify({query: `query { vehiculo { codVehiculo placa } }`})}).then(r => r.json()).then(data => this.vehiculos = (data['data']['vehiculo']));
+     body: JSON.stringify({query: `query { vehiculo {codVehiculo codMarca codModelo codTipo placa codConfiguracion} }`})}).then(r => r.json()).then(data => this.vehiculos = (data['data']['vehiculo']));
     this.fetchMarcasVehiculo = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
      body: JSON.stringify({query: `query { marcaVehiculo { codMarca descripcion } }`})}).then(r => r.json()).then(data => this.marcasVehiculo = (data['data']['marcaVehiculo']));
     this.fetchConfiguracionesVehiculo = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
      body: JSON.stringify({query: `query { configuracion { codConfi descripcion } }`})}).then(r => r.json()).then(data => this.configuraciones = (data['data']['configuracion']));
      /* Fetch fromTires */
+     /** historial Neumaticos*/
     this.fetchNeumaticos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
-     body: JSON.stringify({query: `query { neumaticos { codNeumatico codMarca codModelo codMedida codDiseno estado } }`})}).then(r => r.json()).then(data => this.neumaticos = (data['data']['neumaticos']));
+     body: JSON.stringify({query: `query { neumaticos { codNeumatico codMarca codModelo codMedida codDiseno estado codProveedor} }`})}).then(r => r.json()).then(data => this.neumaticos = (data['data']['neumaticos']));
     this.fetchCondicionesNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
      body: JSON.stringify({query: `query { condicionesNeumatico { codCondicion descripcion } }`})}).then(r => r.json()).then(data => this.condicionesNeumatico = (data['data']['condicionesNeumatico']));
     this.fetchDisenosNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
@@ -69,9 +76,11 @@ class MyView4 extends PageViewElement {
       disenosNeumatico: {type: Array},
       marcaNeumatico: {type: Array},
       medidaNeumatico: {type: Array},
-      modeloNeumatico: {type: Array}
-    };
-  }
+      modeloNeumatico: {type: Array},
+      }
+    }
+
+
 
   render() {
     return html`
@@ -195,7 +204,7 @@ class MyView4 extends PageViewElement {
        <paper-listbox slot="dropdown-content" >
     ${
       html`${
-            this.disenosNeumatico.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codDisenos}: ${x.descripcion}</paper-item>`)
+            this.disenosNeumatico.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codDiseno}: ${x.descripcion}</paper-item>`)
             }`
     }
        </paper-listbox>
@@ -212,7 +221,32 @@ class MyView4 extends PageViewElement {
        </paper-listbox>
      </paper-dropdown-menu>
     <!--End Condicion de Neumaticos fromTires -->
+
+
+<!-- test -->
+
     </section>
+        <!-- Start Table -->
+    <vaadin-grid theme="column-borders" column-reordering-allowed multi-sort .items=${this.vehiculos}>
+        <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
+        <vaadin-grid-filter-column resizable width="9em" path="codVehiculo" header="Vehiculo"></vaadin-grid-filter-column>
+        <vaadin-grid-sort-column resizable width="9em" path="codMarca" header="Marca de Vehiculo"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column resizable width="9em" path="codModelo" flex-grow="2" header="Modelo de Vehiculo"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" path="codTipo" header="Tipo de Vehiculo"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" path="placa" header="Placa de Vehiculo"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" path="codConfiguracion" header="Configuracion de Vehiculo"></vaadin-grid-sort-column>
+    </vaadin-grid>
+    <vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort .items=${this.neumaticos}>
+        <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
+        <vaadin-grid-filter-column resizable width="9em" path="codNeumatico" header="Neumatico"></vaadin-grid-filter-column>
+        <vaadin-grid-sort-column resizable width="9em" path="codMarca" header="Marca de Neumatico"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column resizable width="9em" path="codModelo" flex-grow="2" header="Modelo de Neumatico"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" path="codMedida" header="Medida de Neumatico"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" path="codDiseno" header="Diseno de Neumatico"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" path="estado" header="Estado de Neumatico"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" path="codProveedor" header="Proveedor de Neumatico"></vaadin-grid-sort-column>
+    </vaadin-grid>
+
      <style>
          button, p {
            display: inline-block;
@@ -220,6 +254,8 @@ class MyView4 extends PageViewElement {
        </style>
 
   `;
+
+    //  body: JSON.stringify({query: `query { neumaticos { codNeumatico codMarca codModelo codMedida codDiseno estado } }`})}).then(r => r.json()).then(data => this.neumaticos = (data['data']['neumaticos']));
   }
 }
 
