@@ -5,6 +5,9 @@ import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
+import '@vaadin/vaadin-combo-box/vaadin-combo-box.js'
+import { SharedStyles } from '../shared-styles.js';
+
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
@@ -39,6 +42,11 @@ class TiresSearchElement extends LitElement {
         this.fetchModeloNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
         body: JSON.stringify({query: `query { modeloNeumatico { codModelo descripcion } }`})}).then(r => r.json()).then(data => this.modeloNeumatico = (data['data']['modeloNeumatico']));
     }
+  static get styles() {
+    return [
+      SharedStyles
+    ];
+  }
   static get properties() {
     return {
       codModeloFilter: { type: String},
@@ -131,6 +139,43 @@ class TiresSearchElement extends LitElement {
      </paper-dropdown-menu>
 </section>
     <!--End Condicion de Neumaticos fromTires -->
+    <vaadin-combo-box label="Neumaticos" .items=${this.neumaticos.map(x => x.codNeumatico)} @selected-item-changed="${(e)=>console.log(e.detail.value)}" ></vaadin-combo-box>
+    <vaadin-combo-box 
+        label="Marca de Neumatico" 
+        .items=${this.marcaNeumatico} 
+        @selected-item-changed="${(e)=> (e.detail.value != null? this.codMarcaFilter = e.detail.value.codMarca : this.codMarcaFilter = "")}" 
+        @change="${e => console.log(e)}" 
+        item-label-path="descripcion"
+        item-value-path="codMarca"
+        value="" >
+    </vaadin-combo-box>
+    <vaadin-combo-box 
+        label="Modelo de Neumatico" 
+        .items=${this.modeloNeumatico} 
+        @selected-item-changed="${(e)=> (e.detail.value != null? this.codModeloFilter = e.detail.value.codModelo : this.codModeloFilter = "")}" 
+        @change="${e => console.log(e)}" 
+        item-label-path="descripcion"
+        item-value-path="codModelo"
+        value="" >
+    </vaadin-combo-box>
+    <vaadin-combo-box 
+        label="Medida de Neumatico" 
+        .items=${this.medidaNeumatico} 
+        @selected-item-changed="${(e)=> (e.detail.value != null? this.codMedidaFilter = e.detail.value.codMedida : this.codMedidaFilter = "")}" 
+        @change="${e => console.log(e)}" 
+        item-label-path="descripcion"
+        item-value-path="codMedida"
+        value="" >
+    </vaadin-combo-box>
+    <vaadin-combo-box 
+        label="Diseno de Neumatico" 
+        .items=${this.disenosNeumatico} 
+        @selected-item-changed="${(e)=> (e.detail.value != null? this.codDisenoFilter = e.detail.value.codDiseno : this.codDisenoFilter = "")}" 
+        @change="${e => console.log(e)}" 
+        item-label-path="descripcion"
+        item-value-path="codDiseno"
+        value="" >
+    </vaadin-combo-box>
 
     <vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort .items=${this.neumaticos}>
         <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column> <vaadin-grid-filter-column resizable width="9em" path="codNeumatico" header="Neumatico"></vaadin-grid-filter-column>

@@ -43,6 +43,9 @@ const loadPage = (page) => (dispatch) => {
     case 'view4':
       import('../components/my-view4.js');
       break;
+    case 'view5':
+      import('../components/my-view5.js');
+      break;
     default:
       page = 'view404';
       import('../components/my-view404.js');

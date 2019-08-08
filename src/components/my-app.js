@@ -1,13 +1,3 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
 import { LitElement, html, css } from 'lit-element';
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -206,6 +196,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'view4'}" href="/view4">View Four</a>
+          <a ?selected="${this._page === 'view5'}" href="/view5">View Five</a>
         </nav>
       </app-header>
 
@@ -218,6 +209,7 @@ class MyApp extends connect(store)(LitElement) {
           <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
           <a ?selected="${this._page === 'view4'}" href="/view4">View Four</a>
+          <a ?selected="${this._page === 'view5'}" href="/view5">View Five</a>
         </nav>
       </app-drawer>
 
@@ -227,6 +219,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
         <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
         <my-view4 class="page" ?active="${this._page === 'view4'}"></my-view4>
+        <my-view5 class="page" ?active="${this._page === 'view5'}"></my-view5>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
 
