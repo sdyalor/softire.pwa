@@ -35,13 +35,12 @@ Caracteristicas:
 - [Acknowledgments](#acknowledgments)
 
 ## ⛓️ Dependencies / Limitations <a name = "limitations"></a>
-- Visual Studio 2019 preview
-- .NET 3 Core
+- Node 12.x
 
 ### Prerequisites
 
-Install .NET Core 3.0 on your system.
-https://dotnet.microsoft.com/download/dotnet-core/3.0
+Install node on your system
+https://nodejs.org/en/
 
 ### Setup
 
