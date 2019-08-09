@@ -68,76 +68,8 @@ class TiresSearchElement extends LitElement {
 
     <!-- Neumaticos fromTires -->
     <section>
-    <h1>Historial de Neumaticos</h1>
-     <paper-dropdown-menu label="Neumaticos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" >
-    ${
-      html`${
-            this.neumaticos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codNeumatico}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!--End  Neumaticos fromTires -->
-    <!-- Marca de Neumaticos fromTires -->
-     <paper-dropdown-menu label="Marca de Neumaticos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=0 >
-        <paper-item @click=${() => this.codMarcaFilter = ""}>Modelo de Neumatico</paper-item>
-    ${
-      html`${
-            this.marcaNeumatico.map( x => html`<paper-item @click=${() => this.codMarcaFilter = x.codMarca}>${x.codMarca}: ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!--End Marca de Neumaticos fromTires -->
-    <!-- Modelo de Neumaticos fromTires -->
-     <paper-dropdown-menu label="Modelo de Neumaticos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=0>
-        <paper-item @click=${() => this.codModeloFilter = ""}>Modelo de Neumatico</paper-item>
-    ${
-      html`${
-            this.modeloNeumatico.map( x => html`<paper-item @click=${() => this.codModeloFilter = x.codModelo}>${x.codModelo}: ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!--End Modelo de Neumaticos fromTires -->
-    <!-- Medida de Neumaticos fromTires -->
-     <paper-dropdown-menu label="Medida de Neumaticos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=0>
-        <paper-item @click=${() => this.codMedidaFilter = ""}>Medida de Neumatico</paper-item>
-    ${
-      html`${
-            this.medidaNeumatico.map( x => html`<paper-item @click=${() => this.codMedidaFilter = x.codMedida}>${x.codMedida}: ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!--End Medida de Neumaticos fromTires -->
-    <!-- Diseno de Neumaticos fromTires -->
-     <paper-dropdown-menu label="Disenos de Neumaticos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" selected=0>
-        <paper-item @click=${() => this.codDisenoFilter = ""}>Diseno de Neumatico</paper-item>
-    ${
-      html`${
-            this.disenosNeumatico.map( x => html`<paper-item @click=${() => this.codDisenoFilter = x.codDiseno}>${x.codDiseno}: ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!--End Disenos de Neumaticos fromTires -->
-    <!-- Condicion de Neumaticos fromTires -->
-     <paper-dropdown-menu label="Condiciones de Neumaticos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" >
-    ${
-      html`${
-            this.condicionesNeumatico.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codCondicion}: ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-</section>
+        <h1>Historial de Neumaticos</h1>
+    </section>
     <!--End Condicion de Neumaticos fromTires -->
     <vaadin-combo-box label="Neumaticos" .items=${this.neumaticos.map(x => x.codNeumatico)} @selected-item-changed="${(e)=>console.log(e.detail.value)}" ></vaadin-combo-box>
     <vaadin-combo-box 
