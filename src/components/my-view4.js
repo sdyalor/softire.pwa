@@ -4,9 +4,6 @@ import { PageViewElement } from './page-view-element.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-listbox/paper-listbox.js';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
@@ -35,7 +32,7 @@ class MyView4 extends PageViewElement {
     this.codDisenoFilter = "";
     this.codMarcaFilter = "";
     /* ENDfilters*/
-    this.fetchURL = `http://azaryah.sdyalor.me/api/graphql`;
+    this.fetchURL = `https://azaryah.sdyalor.me/api/graphql`;
     /*  Fetch fromVehicles */
     this.fetchModelosVehiculo = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
      body: JSON.stringify({query: `query { modeloVehiculo { codModelo descripcion } }`})}).then(r => r.json()).then(data => this.modelosVehiculo = (data['data']['modeloVehiculo']));
@@ -75,74 +72,9 @@ class MyView4 extends PageViewElement {
 
   render() {
     return html`
-    <style is="custom-style" include="paper-item-shared-styles"></style>
     <section>
     <h1>Historial de Vehiculos</h1>
     <!-- codVehiculo fromVehicles-->
-     <paper-dropdown-menu label="Vehiculos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" >
-    ${
-      html`${
-             this.vehiculos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codVehiculo}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!-- end codVehiculo fromVehicles-->
-    <!-- placa fromVehicles-->
-     <paper-dropdown-menu label="Placa de Vehiculos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content"  >
-    ${
-      html`${
-            this.vehiculos.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.placa}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!-- end placa fromVehicles-->
-    <!-- codMarca fromVehicles-->
-     <paper-dropdown-menu label="Marca de Vehiculos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" >
-    ${
-      html`${
-            this.marcasVehiculo.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codMarca} : ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!-- End codMarca fromVehicles-->
-    <!-- Modelos fromVehicles-->
-     <paper-dropdown-menu label="Modelo de Vehiculos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" >
-    ${
-      html`${
-            this.modelosVehiculo.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codModelo} : ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!--End  Modelos fromVehicles-->
-    <!-- Tipos fromVehicles-->
-     <paper-dropdown-menu label="Tipo de Vehiculos" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" >
-    ${
-      html`${
-            this.tiposVehiculo.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codTipo} : ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
-    <!--End  Tipos fromVehicles-->
-    <!-- Configuraciones fromVehicles -->
-     <paper-dropdown-menu label="Configuraciones de Vehiculo" vertical-offset="60" async>
-       <paper-listbox slot="dropdown-content" >
-    ${
-      html`${
-            this.configuraciones.map( x => html`<paper-item @click=${e => console.log(e.target.innerText)}>${x.codConfi} : ${x.descripcion}</paper-item>`)
-            }`
-    }
-       </paper-listbox>
-     </paper-dropdown-menu>
     <!--End  Configurationces fromVehicles -->
 
     </section>
@@ -160,10 +92,8 @@ class MyView4 extends PageViewElement {
     <div id="pages">${
         this.vehiculos.length >2?Array.apply(null,{length: Math.ceil(this.vehiculos.length/this.pageSize)}).map((item,index)=>html`<button @click=${(e)=>this.updateItemsFromPage(e.target.innerText)}>${index+1}</button>`):"false"
     }</div>
+    <div></div>
 
-
-<vaadin-text-field label="Label"></vaadin-text-field>
-<vaadin-combo-box label="User" placeholder="Please select" item-value-path="email" item-label-path="email"></vaadin-combo-box>
 
     <tires-search-element></tires-search-element>
 

@@ -7,6 +7,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-selection-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
 import '@vaadin/vaadin-combo-box/vaadin-combo-box.js'
 import { SharedStyles } from '../shared-styles.js';
+import historyClass from './historyClass.js';
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
@@ -15,6 +16,7 @@ class TiresSearchElement extends LitElement {
     constructor(){
         super()
         this.codModeloFilter = "";
+        this.codNeumaticoFilter = "";
         this.codMedidaFilter = "";
         this.codDisenoFilter = "";
         this.codMarcaFilter = "";
@@ -27,7 +29,7 @@ class TiresSearchElement extends LitElement {
         this.modeloNeumatico = [];
         this.vehiculosPage = [];
 
-        this.fetchURL = `http://azaryah.sdyalor.me/api/graphql`;
+        this.fetchURL = `https://azaryah.sdyalor.me/api/graphql`;
 
         this.fetchNeumaticos = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
         body: JSON.stringify({query: `query { neumaticos { codNeumatico codMarca codModelo codMedida codDiseno estado codProveedor} }`})}).then(r => r.json()).then(data => this.neumaticos = (data['data']['neumaticos']));
@@ -41,6 +43,33 @@ class TiresSearchElement extends LitElement {
         body: JSON.stringify({query: `query { medidaNeumatico { codMedida descripcion } }`})}).then(r => r.json()).then(data => this.medidaNeumatico = (data['data']['medidaNeumatico']));
         this.fetchModeloNeumatico = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
         body: JSON.stringify({query: `query { modeloNeumatico { codModelo descripcion } }`})}).then(r => r.json()).then(data => this.modeloNeumatico = (data['data']['modeloNeumatico']));
+        /**
+         * history Detail
+         */
+        this.fetchNeumaticosDetBy = fetch(`${this.fetchURL}`, {method: 'POST',headers: {'Content-Type': 'application/json','Accept': 'application/json',},
+        body: JSON.stringify({query: `
+        query {
+        snNeumaticosDetsById(id:"0000710"){
+                nroCia
+                codNeumatico
+                fechaMov
+                codCondicion
+                ubicacion
+                codEvento
+                remanenteProm
+                posicion
+                codDiseno
+                kilometraje
+                horometro
+                presion
+                codProveedor
+                costo
+            }
+        }
+        `})}).then(r => r.json()).then(data => this.code0000710 = (data['data']['snNeumaticosDetsById']));
+        this.code0000710 = [];
+
+        this.history = {};
     }
   static get styles() {
     return [
@@ -53,14 +82,23 @@ class TiresSearchElement extends LitElement {
       codMedidaFilter: { type: String},
       codDisenoFilter: { type: String},
       codMarcaFilter: { type: String},
+      codNeumaticoFilter: { type: String},
       neumaticos: {type: Array},
       condicionesNeumatico: {type: Array},
       disenosNeumatico: {type: Array},
       marcaNeumatico: {type: Array},
       medidaNeumatico: {type: Array},
       modeloNeumatico: {type: Array},
+      history: {type: Object},
+      code0000710 :{type: Array}
     }
   }
+
+historyClassCall(){
+    this.history = new historyClass(this.code0000710);
+    console.log(this.history.instalationRemnantObj);
+    console.log(this.history.lastInspectionWhereCondicionNU);
+}
 
 
   render() {
@@ -71,7 +109,15 @@ class TiresSearchElement extends LitElement {
         <h1>Historial de Neumaticos</h1>
     </section>
     <!--End Condicion de Neumaticos fromTires -->
-    <vaadin-combo-box label="Neumaticos" .items=${this.neumaticos.map(x => x.codNeumatico)} @selected-item-changed="${(e)=>console.log(e.detail.value)}" ></vaadin-combo-box>
+    <vaadin-combo-box 
+        label="Neumaticos" 
+        .items=${this.neumaticos} 
+        @selected-item-changed="${(e)=> (e.detail.value != null? this.codNeumaticoFilter = e.detail.value.codNeumatico : this.codNeumaticoFilter = "")}" 
+        @change="${e => console.log(e)}" 
+        item-label-path="codNeumatico"
+        item-value-path="codNeumatico"
+        value="" >
+    </vaadin-combo-box>
     <vaadin-combo-box 
         label="Marca de Neumatico" 
         .items=${this.marcaNeumatico} 
@@ -110,7 +156,10 @@ class TiresSearchElement extends LitElement {
     </vaadin-combo-box>
 
     <vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort .items=${this.neumaticos}>
-        <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column> <vaadin-grid-filter-column resizable width="9em" path="codNeumatico" header="Neumatico"></vaadin-grid-filter-column>
+        <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column> 
+        <vaadin-grid-sort-column resizable width="9em" path="codNeumatico" header="Neumatico">
+            <vaadin-grid-filter path="codNeumatico" value=${this.codNeumaticoFilter}></vaadin-grid-filter>
+        </vaadin-grid-sort-column>
         <vaadin-grid-sort-column resizable width="9em" path="codMarca" header="Marca de Neumatico">
             <vaadin-grid-filter path="codMarca" value=${this.codMarcaFilter}></vaadin-grid-filter>
         </vaadin-grid-sort-column>
@@ -126,6 +175,7 @@ class TiresSearchElement extends LitElement {
         <vaadin-grid-sort-column width="9em" path="estado" header="Estado de Neumatico"></vaadin-grid-sort-column>
         <vaadin-grid-sort-column width="9em" path="codProveedor" header="Proveedor de Neumatico"></vaadin-grid-sort-column>
     </vaadin-grid>
+    <button @click=${this.historyClassCall}></button>
     `;
   }
 }
