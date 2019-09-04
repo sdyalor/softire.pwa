@@ -39,42 +39,42 @@ class TiresSearchElement extends LitElement {
       })
     })
       .then(r => r.json())
-      .then(data => (this.neumaticos = data['data']['neumaticos']));
+      .then(data => (this.neumaticos = data.data.neumaticos));
     this.fetchCondicionesNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { condicionesNeumatico { codCondicion descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.condicionesNeumatico = data['data']['condicionesNeumatico']));
+      .then(data => (this.condicionesNeumatico = data.data.condicionesNeumatico));
     this.fetchDisenosNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { disenosNeumatico { codDiseno descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.disenosNeumatico = data['data']['disenosNeumatico']));
+      .then(data => (this.disenosNeumatico = data.data.disenosNeumatico));
     this.fetchMarcaNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { marcaNeumatico { codMarca descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.marcaNeumatico = data['data']['marcaNeumatico']));
+      .then(data => (this.marcaNeumatico = data.data.marcaNeumatico));
     this.fetchMedidaNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { medidaNeumatico { codMedida descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.medidaNeumatico = data['data']['medidaNeumatico']));
+      .then(data => (this.medidaNeumatico = data.data.medidaNeumatico));
     this.fetchModeloNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { modeloNeumatico { codModelo descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.modeloNeumatico = data['data']['modeloNeumatico']));
+      .then(data => (this.modeloNeumatico = data.data.modeloNeumatico));
     /**
      * history Detail
      */
@@ -105,14 +105,16 @@ class TiresSearchElement extends LitElement {
       })
     })
       .then(r => r.json())
-      .then(data => (this.code0000710 = data['data']['snNeumaticosDetsById']));
+      .then(data => (this.code0000710 = data.data.snNeumaticosDetsById));
     this.code0000710 = [];
 
     this.history = {};
   }
+
   static get styles() {
     return [SharedStyles];
   }
+
   static get properties() {
     return {
       codModeloFilter: { type: String },

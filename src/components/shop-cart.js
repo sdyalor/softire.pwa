@@ -49,18 +49,24 @@ class ShopCart extends connect(store)(LitElement) {
   render() {
     return html`
       <p ?hidden="${this._items.length !== 0}">Please add some products to cart.</p>
-      ${this._items.map((item) =>
-        html`
-          <div>
-            <shop-item .name="${item.title}" .amount="${item.amount}" .price="${item.price}"></shop-item>
-            <button
+      ${this._items.map(
+        item =>
+          html`
+            <div>
+              <shop-item
+                .name="${item.title}"
+                .amount="${item.amount}"
+                .price="${item.price}"
+              ></shop-item>
+              <button
                 @click="${this._removeButtonClicked}"
                 data-index="${item.id}"
-                title="Remove from cart">
-              ${removeFromCartIcon}
-            </button>
-          </div>
-        `
+                title="Remove from cart"
+              >
+                ${removeFromCartIcon}
+              </button>
+            </div>
+          `
       )}
       <p ?hidden="${!this._items.length}"><b>Total:</b> ${this._total}</p>
     `;
