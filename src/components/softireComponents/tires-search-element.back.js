@@ -8,11 +8,13 @@ import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
 import '@vaadin/vaadin-combo-box/vaadin-combo-box.js';
 import { SharedStyles } from '../shared-styles.js';
 import historyClass from './historyClass.js';
+import { store } from '../../store.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
-class TiresSearchElement extends LitElement {
+class TiresSearchElement extends connect(store)(LitElement) {
   constructor() {
     super();
     this.codModeloFilter = '';
@@ -39,42 +41,42 @@ class TiresSearchElement extends LitElement {
       })
     })
       .then(r => r.json())
-      .then(data => (this.neumaticos = data['data']['neumaticos']));
+      .then(data => (this.neumaticos = data.data.neumaticos));
     this.fetchCondicionesNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { condicionesNeumatico { codCondicion descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.condicionesNeumatico = data['data']['condicionesNeumatico']));
+      .then(data => (this.condicionesNeumatico = data.data.condicionesNeumatico));
     this.fetchDisenosNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { disenosNeumatico { codDiseno descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.disenosNeumatico = data['data']['disenosNeumatico']));
+      .then(data => (this.disenosNeumatico = data.data.disenosNeumatico));
     this.fetchMarcaNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { marcaNeumatico { codMarca descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.marcaNeumatico = data['data']['marcaNeumatico']));
+      .then(data => (this.marcaNeumatico = data.data.marcaNeumatico));
     this.fetchMedidaNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { medidaNeumatico { codMedida descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.medidaNeumatico = data['data']['medidaNeumatico']));
+      .then(data => (this.medidaNeumatico = data.data.medidaNeumatico));
     this.fetchModeloNeumatico = fetch(`${this.fetchURL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: `query { modeloNeumatico { codModelo descripcion } }` })
     })
       .then(r => r.json())
-      .then(data => (this.modeloNeumatico = data['data']['modeloNeumatico']));
+      .then(data => (this.modeloNeumatico = data.data.modeloNeumatico));
     /**
      * history Detail
      */
@@ -105,14 +107,16 @@ class TiresSearchElement extends LitElement {
       })
     })
       .then(r => r.json())
-      .then(data => (this.code0000710 = data['data']['snNeumaticosDetsById']));
+      .then(data => (this.code0000710 = data.data.snNeumaticosDetsById));
     this.code0000710 = [];
 
     this.history = {};
   }
+
   static get styles() {
     return [SharedStyles];
   }
+
   static get properties() {
     return {
       codModeloFilter: { type: String },
@@ -127,7 +131,8 @@ class TiresSearchElement extends LitElement {
       medidaNeumatico: { type: Array },
       modeloNeumatico: { type: Array },
       history: { type: Object },
-      code0000710: { type: Array }
+      code0000710: { type: Array },
+      _tires: { type: Array }
     };
   }
 
@@ -135,6 +140,9 @@ class TiresSearchElement extends LitElement {
     this.history = new historyClass(this.code0000710);
     console.log(this.history.instalationRemnantObj);
     console.log(this.history.lastInspectionWhereCondicionNU);
+  }
+  stateChanged(state) {
+    this._tires = state.tiresReducer.tires.neumaticos;
   }
 
   render() {
@@ -210,12 +218,7 @@ class TiresSearchElement extends LitElement {
       >
       </vaadin-combo-box>
 
-      <vaadin-grid
-        theme="row-stripes"
-        column-reordering-allowed
-        multi-sort
-        .items=${this.neumaticos}
-      >
+      <vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort .items=${this._tires}>
         <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
         <vaadin-grid-sort-column resizable width="9em" path="codNeumatico" header="Neumatico">
           <vaadin-grid-filter
