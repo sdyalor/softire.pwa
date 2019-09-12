@@ -23,6 +23,7 @@ store.addReducers({
   tires: tiresReducer,
   vehicles: vehiclesReducer
 });
+import './softireComponents/movements-element.js';
 //store.dispatch(getAllTires());
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -79,6 +80,7 @@ class MyView4 extends connect(store)(PageViewElement) {
     return html`
       <tires-search-element></tires-search-element>
       <vehicles-search-element></vehicles-search-element>
+      <movements-element></movements-element>
     `;
   }
   updateItemsFromPage(innerText) {

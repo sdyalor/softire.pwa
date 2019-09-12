@@ -103,109 +103,122 @@ class TiresSearchElement extends connect(store)(LitElement) {
         <h1>Historial de Neumaticos</h1>
       </section>
       <!--End Condicion de Neumaticos fromTires -->
-      <vaadin-combo-box
-        label="Neumaticos"
-        .items=${this._tires}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codNeumaticoFilter = e.detail.value.codNeumatico)
-            : (this.codNeumaticoFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="codNeumatico"
-        item-value-path="codNeumatico"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Marca de Neumatico"
-        .items=${this._tireBrands}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codMarcaFilter = e.detail.value.codMarca)
-            : (this.codMarcaFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="descripcion"
-        item-value-path="codMarca"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Modelo de Neumatico"
-        .items=${this._tireModels}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codModeloFilter = e.detail.value.codModelo)
-            : (this.codModeloFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="descripcion"
-        item-value-path="codModelo"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Medida de Neumatico"
-        .items=${this._tireMeasures}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codMedidaFilter = e.detail.value.codMedida)
-            : (this.codMedidaFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="descripcion"
-        item-value-path="codMedida"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Diseno de Neumatico"
-        .items=${this._tireDesigns}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codDisenoFilter = e.detail.value.codDiseno)
-            : (this.codDisenoFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="descripcion"
-        item-value-path="codDiseno"
-        value=""
-      >
-      </vaadin-combo-box>
-
-      <vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort .items=${this._tires}>
-        <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
-        <vaadin-grid-sort-column resizable width="9em" path="codNeumatico" header="Neumatico">
-          <vaadin-grid-filter
-            path="codNeumatico"
-            value=${this.codNeumaticoFilter}
-          ></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column resizable width="9em" path="codMarca" header="Marca de Neumatico">
-          <vaadin-grid-filter path="codMarca" value=${this.codMarcaFilter}></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column
-          resizable
-          width="9em"
-          path="codModelo"
-          flex-grow="2"
-          header="Modelo de Neumatico"
+      <section>
+        <vaadin-combo-box
+          label="Neumaticos"
+          .items=${this._tires}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codNeumaticoFilter = e.detail.value.codNeumatico)
+              : (this.codNeumaticoFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="codNeumatico"
+          item-value-path="codNeumatico"
+          value=""
         >
-          <vaadin-grid-filter path="codModelo" value=${this.codModeloFilter}></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column width="9em" path="codMedida" header="Medida de Neumatico">
-          <vaadin-grid-filter path="codMedida" value=${this.codMedidaFilter}></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column width="9em" path="codDiseno" header="Diseno de Neumatico">
-          <vaadin-grid-filter path="codDiseno" value=${this.codDisenoFilter}></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column
-          width="9em"
-          path="estado"
-          header="Estado de Neumatico"
-        ></vaadin-grid-sort-column>
-        <vaadin-grid-sort-column
-          width="9em"
-          path="codProveedor"
-          header="Proveedor de Neumatico"
-        ></vaadin-grid-sort-column>
-      </vaadin-grid>
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Marca de Neumatico"
+          .items=${this._tireBrands}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codMarcaFilter = e.detail.value.codMarca)
+              : (this.codMarcaFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="descripcion"
+          item-value-path="codMarca"
+          value=""
+        >
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Modelo de Neumatico"
+          .items=${this._tireModels}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codModeloFilter = e.detail.value.codModelo)
+              : (this.codModeloFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="descripcion"
+          item-value-path="codModelo"
+          value=""
+        >
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Medida de Neumatico"
+          .items=${this._tireMeasures}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codMedidaFilter = e.detail.value.codMedida)
+              : (this.codMedidaFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="descripcion"
+          item-value-path="codMedida"
+          value=""
+        >
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Diseno de Neumatico"
+          .items=${this._tireDesigns}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codDisenoFilter = e.detail.value.codDiseno)
+              : (this.codDisenoFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="descripcion"
+          item-value-path="codDiseno"
+          value=""
+        >
+        </vaadin-combo-box>
+      </section>
+      <div id="container">
+        <vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort .items=${this._tires}>
+          <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
+          <vaadin-grid-sort-column resizable width="9em" path="codNeumatico" header="Neumatico">
+            <vaadin-grid-filter
+              path="codNeumatico"
+              value=${this.codNeumaticoFilter}
+            ></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column
+            resizable
+            width="9em"
+            path="codMarca"
+            header="Marca de Neumatico"
+          >
+            <vaadin-grid-filter path="codMarca" value=${this.codMarcaFilter}></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column
+            resizable
+            width="9em"
+            path="codModelo"
+            flex-grow="2"
+            header="Modelo de Neumatico"
+          >
+            <vaadin-grid-filter path="codModelo" value=${this.codModeloFilter}></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column width="9em" path="codMedida" header="Medida de Neumatico">
+            <vaadin-grid-filter path="codMedida" value=${this.codMedidaFilter}></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column width="9em" path="codDiseno" header="Diseno de Neumatico">
+            <vaadin-grid-filter path="codDiseno" value=${this.codDisenoFilter}></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column
+            width="9em"
+            path="estado"
+            header="Estado de Neumatico"
+          ></vaadin-grid-sort-column>
+          <vaadin-grid-sort-column
+            width="9em"
+            path="codProveedor"
+            header="Proveedor de Neumatico"
+          ></vaadin-grid-sort-column>
+        </vaadin-grid>
+      </div>
+      <style>
+        #container {
+          padding: 1.5em;
+        }
+      </style>
       <button @click=${this.historyClassCall}></button>
     `;
   }

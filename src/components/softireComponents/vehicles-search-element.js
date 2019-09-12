@@ -60,128 +60,136 @@ class VehiclesSearchElement extends connect(store)(LitElement) {
         <h1>Historial de Vehiculos</h1>
       </section>
 
-      <vaadin-combo-box
-        label="Vehiculo"
-        .items=${this._vehicles}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codVehiculoFilter = e.detail.value.codVehiculo.replace(/\s/g, ''))
-            : (this.codVehiculoFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="codVehiculo"
-        item-value-path="codVehiculo"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Marca de Vehiculo"
-        .items=${this._vehicleBrands}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codMarcaFilter = e.detail.value.codMarca)
-            : (this.codMarcaFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="descripcion"
-        item-value-path="codMarca"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Modelo de Vehiculo"
-        .items=${this._vehicleModels}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codModeloFilter = e.detail.value.codModelo)
-            : (this.codModeloFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="descripcion"
-        item-value-path="codModelo"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Tipo de Vehiculo"
-        .items=${this._vehicleTypes}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codTipoFilter = e.detail.value.codTipo)
-            : (this.codTipoFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="descripcion"
-        item-value-path="codTipo"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Placa de Vehiculo"
-        .items=${this._vehicles}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codPlacaFilter = e.detail.value.placa)
-            : (this.codPlacaFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="placa"
-        item-value-path="placa"
-        value=""
-      >
-      </vaadin-combo-box>
-      <vaadin-combo-box
-        label="Configuracion de Vehiculo"
-        .items=${this._vehicleConfigurations}
-        @selected-item-changed="${e =>
-          e.detail.value != null
-            ? (this.codConfiguracionFilter = e.detail.value.codConfi)
-            : (this.codConfiguracionFilter = '')}"
-        @change="${e => console.log(e)}"
-        item-label-path="descripcion"
-        item-value-path="codConfi"
-        value=""
-      >
-      </vaadin-combo-box>
-
-      <vaadin-grid
-        theme="row-stripes"
-        column-reordering-allowed
-        multi-sort
-        .items=${this._vehicles}
-      >
-        <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
-        <vaadin-grid-sort-column resizable width="9em" path="codVehiculo" header="Neumatico">
-          <vaadin-grid-filter
-            path="codVehiculo"
-            value="${this.codVehiculoFilter}"
-          ></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column resizable width="9em" path="codMarca" header="Marca de Vehiculo">
-          <vaadin-grid-filter path="codMarca" value=${this.codMarcaFilter}></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column
-          resizable
-          width="9em"
-          path="codModelo"
-          flex-grow="2"
-          header="Modelo de Vehiculo"
+      <section>
+        <vaadin-combo-box
+          label="Vehiculo"
+          .items=${this._vehicles}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codVehiculoFilter = e.detail.value.codVehiculo.replace(/\s/g, ''))
+              : (this.codVehiculoFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="codVehiculo"
+          item-value-path="codVehiculo"
+          value=""
         >
-          <vaadin-grid-filter path="codModelo" value=${this.codModeloFilter}></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-
-        <vaadin-grid-sort-column width="9em" path="codTipo" header="Tipo de Vehiculo">
-          <vaadin-grid-filter path="codTipo" value=${this.codTipoFilter}></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column width="9em" path="placa" header="Placa de Vehiculo">
-          <vaadin-grid-filter path="placa" value=${this.codPlacaFilter}></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-        <vaadin-grid-sort-column
-          width="9em"
-          path="codConfiguracion"
-          header="Configuracion de Vehiculo"
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Marca de Vehiculo"
+          .items=${this._vehicleBrands}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codMarcaFilter = e.detail.value.codMarca)
+              : (this.codMarcaFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="descripcion"
+          item-value-path="codMarca"
+          value=""
         >
-          <vaadin-grid-filter
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Modelo de Vehiculo"
+          .items=${this._vehicleModels}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codModeloFilter = e.detail.value.codModelo)
+              : (this.codModeloFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="descripcion"
+          item-value-path="codModelo"
+          value=""
+        >
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Tipo de Vehiculo"
+          .items=${this._vehicleTypes}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codTipoFilter = e.detail.value.codTipo)
+              : (this.codTipoFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="descripcion"
+          item-value-path="codTipo"
+          value=""
+        >
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Placa de Vehiculo"
+          .items=${this._vehicles}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codPlacaFilter = e.detail.value.placa)
+              : (this.codPlacaFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="placa"
+          item-value-path="placa"
+          value=""
+        >
+        </vaadin-combo-box>
+        <vaadin-combo-box
+          label="Configuracion de Vehiculo"
+          .items=${this._vehicleConfigurations}
+          @selected-item-changed="${e =>
+            e.detail.value != null
+              ? (this.codConfiguracionFilter = e.detail.value.codConfi)
+              : (this.codConfiguracionFilter = '')}"
+          @change="${e => console.log(e)}"
+          item-label-path="descripcion"
+          item-value-path="codConfi"
+          value=""
+        >
+        </vaadin-combo-box>
+      </section>
+      <div id="container">
+        <vaadin-grid
+          theme="row-stripes"
+          column-reordering-allowed
+          multi-sort
+          .items=${this._vehicles}
+        >
+          <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
+          <vaadin-grid-sort-column resizable width="9em" path="codVehiculo" header="Neumatico">
+            <vaadin-grid-filter
+              path="codVehiculo"
+              value="${this.codVehiculoFilter}"
+            ></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column resizable width="9em" path="codMarca" header="Marca de Vehiculo">
+            <vaadin-grid-filter path="codMarca" value=${this.codMarcaFilter}></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column
+            resizable
+            width="9em"
+            path="codModelo"
+            flex-grow="2"
+            header="Modelo de Vehiculo"
+          >
+            <vaadin-grid-filter path="codModelo" value=${this.codModeloFilter}></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+
+          <vaadin-grid-sort-column width="9em" path="codTipo" header="Tipo de Vehiculo">
+            <vaadin-grid-filter path="codTipo" value=${this.codTipoFilter}></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column width="9em" path="placa" header="Placa de Vehiculo">
+            <vaadin-grid-filter path="placa" value=${this.codPlacaFilter}></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column
+            width="9em"
             path="codConfiguracion"
-            value=${this.codConfiguracionFilter}
-          ></vaadin-grid-filter>
-        </vaadin-grid-sort-column>
-      </vaadin-grid>
+            header="Configuracion de Vehiculo"
+          >
+            <vaadin-grid-filter
+              path="codConfiguracion"
+              value=${this.codConfiguracionFilter}
+            ></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+        </vaadin-grid>
+      </div>
+      <style>
+        #container {
+          padding: 1.5em;
+        }
+      </style>
     `;
   }
 }
