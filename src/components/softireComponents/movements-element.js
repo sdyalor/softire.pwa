@@ -11,6 +11,7 @@ import { store } from '../../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import historyClass from './historyClass.js';
 import * as R from 'ramda/dist/ramda.js';
+import { addDescriptionsToTires } from '../../actions/viewsActions.js';
 
 class MovementsElement extends connect(store)(LitElement) {
   fetchDetById(id) {
@@ -50,6 +51,7 @@ class MovementsElement extends connect(store)(LitElement) {
     this.codeTest = [];
     this.history = {};
     this.inputValue = 'code value here';
+    this.tireBrands = [];
   }
 
   static get styles() {
@@ -59,7 +61,8 @@ class MovementsElement extends connect(store)(LitElement) {
   static get properties() {
     return {
       codeTest: { type: Array },
-      inputValue: { type: String }
+      inputValue: { type: String },
+      _tireBrands: { type: Array }
     };
   }
 
@@ -85,22 +88,39 @@ class MovementsElement extends connect(store)(LitElement) {
     //console.log(this.history.instalationRemnantObj);
     //console.log(this.history.lastInspectionWhereCondicionNU);
   }
+
   toAddDescripcion(neumatico) {
-    return { ...neumatico, ...this.addProps(neumatico, store.getState()) };
-  }
-  addProp(neumaticoObj, state) {
-    const selectBrandsFrom = R.compose(
-      R.prop('marcaNeumatico'),
-      R.prop('tireBrands')
-    );
+    function addProps(neumaticoObj, state) {
+      const selectBrandsFrom = R.compose(
+        R.prop('tireBrands'),
+        R.prop('tires')
+      );
+      const findBrand = R.find(R.propEq('codMarca', neumaticoObj['codMarca']));
+      const getBrandDescripcion = R.prop('Descripcion');
+      // const a = { codMarcaDescripcion: 'state' };
 
-    const findBrand = R.find(R.propEq('codMarca', R.prop('codMarca'))(neumaticoObj));
-    const getBrandDescripcion = R.prop('Descripcion');
-
-    return { codMarcaDescripcion: getBrandDescripcion(findBrand(selectBrandsFrom(state))) };
+      return R.compose(
+        getBrandDescripcion,
+        findBrand,
+        selectBrandsFrom
+      )(state);
+    }
+    return { ...neumatico, ...addProps(neumatico, store.getState()) };
+    // return getBrandDescripcion(findBrand(selectBrandsFrom(state)))
   }
+  toAddDescripcions(othis, tire) {
+    // R.find()
+    const wrapper = othis._tireBrands;
+    const callback = (fthis, brand) => brand['codMarca'] == fthis['codMarca'];
+
+    const OBrand = R.find(callback.bind(null, tire))(wrapper);
+    // return { ...tire, added: wrapper };
+    return { ...tire, codMarcaDescripcion: OBrand['descripcion'] };
+  }
+
   stateChanged(state) {
     this._tires = state.tires.tires.neumaticos;
+    this._tireBrands = state.tires.tireBrands.marcaNeumatico;
     if (state.tires.tires.neumaticos) {
       console.log('state looks with tires');
     }
@@ -108,7 +128,7 @@ class MovementsElement extends connect(store)(LitElement) {
       console.log('state looks with conditions');
     }
     if (state.tires.tires.neumaticos && state.tires.tireConditions.condicionesNeumatico) {
-      // this.neumaticosView = R.map(this.toAddDescripcion, state.tires.tires.neumaticos);
+      this.neumaticosView = R.map(this.toAddDescripcions.bind(null, this), this._tires);
     }
   }
   get inputEl() {
@@ -133,7 +153,9 @@ class MovementsElement extends connect(store)(LitElement) {
           padding: 1.5em;
         }
       </style>
-      <button @click="${e => console.log(this.neumaticosView)}" >getState</button>
+      <button @click="${() => console.log(this.neumaticosView)}" >getState</button>
+      <button @click="${() => console.log(this._tireBrands)}" > log brands </button>
+      <button @click="${() => store.dispatch(addDescriptionsToTires())}" > dispatch store </button>
     `;
   }
 }

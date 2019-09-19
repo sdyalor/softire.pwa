@@ -9,7 +9,7 @@
   "scripts": {
     "start": "polymer serve",
     "lint": "eslint",
-    "start:webpack": "webpack-dev-server --public us.sdyalor.me --mode development",
+    "start:webpack": "webpack-dev-server --mode development",
     "build": "polymer build --auto-base-path && gulp prpl-server",
     "build:static": "polymer build",
     "build:webpack": "rm -rf dist && webpack --config webpack.config.js && aws s3 sync dist/ s3://pwa.sdyalor.me",

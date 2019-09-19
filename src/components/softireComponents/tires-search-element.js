@@ -79,7 +79,8 @@ class TiresSearchElement extends connect(store)(LitElement) {
       _tireModels: { type: Array },
       _tireMeasures: { type: Array },
       _tireDesigns: { type: Array },
-      _tireConditions: { type: Array }
+      _tireConditions: { type: Array },
+      _tiresView: { type: Array }
     };
   }
 
@@ -90,6 +91,7 @@ class TiresSearchElement extends connect(store)(LitElement) {
   }
   stateChanged(state) {
     this._tires = state.tires.tires.neumaticos;
+    this._tiresView = state.views.tiresView;
     this._tireBrands = state.tires.tireBrands.marcaNeumatico;
     this._tireModels = state.tires.tireModels.modeloNeumatico;
     this._tireDesigns = state.tires.tireDesigns.disenosNeumatico;
@@ -171,44 +173,66 @@ class TiresSearchElement extends connect(store)(LitElement) {
         </vaadin-combo-box>
       </section>
       <div id="container">
-        <vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort .items=${this._tires}>
+        <vaadin-grid
+          theme="row-stripes"
+          column-reordering-allowed
+          multi-sort
+          .items=${this._tiresView}
+        >
           <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
-          <vaadin-grid-sort-column resizable width="9em" path="codNeumatico" header="Neumatico">
+          <vaadin-grid-sort-column resizable width="9rem" path="codNeumatico" header="Neumatico">
             <vaadin-grid-filter
               path="codNeumatico"
               value=${this.codNeumaticoFilter}
             ></vaadin-grid-filter>
           </vaadin-grid-sort-column>
+
           <vaadin-grid-sort-column
-            resizable
-            width="9em"
-            path="codMarca"
+            width="9rem"
+            path="codMarcaDescripcion"
             header="Marca de Neumatico"
           >
+          </vaadin-grid-sort-column>
+
+          <vaadin-grid-sort-column path="codMarca" header="Marca">
             <vaadin-grid-filter path="codMarca" value=${this.codMarcaFilter}></vaadin-grid-filter>
           </vaadin-grid-sort-column>
+
           <vaadin-grid-sort-column
-            resizable
-            width="9em"
-            path="codModelo"
-            flex-grow="2"
+            width="9rem"
+            path="codModeloDescripcion"
             header="Modelo de Neumatico"
+          >
+          </vaadin-grid-sort-column>
+
+          <vaadin-grid-sort-column
+            path="codModelo"
+            header="Modelo"
           >
             <vaadin-grid-filter path="codModelo" value=${this.codModeloFilter}></vaadin-grid-filter>
           </vaadin-grid-sort-column>
-          <vaadin-grid-sort-column width="9em" path="codMedida" header="Medida de Neumatico">
+
+          <vaadin-grid-sort-column
+            width="9rem"
+            path="codMedidaDescripcion"
+            header="Medida de Neumatico"
+          >
+          </vaadin-grid-sort-column>
+          <vaadin-grid-sort-column path="codMedida" header="Medida">
             <vaadin-grid-filter path="codMedida" value=${this.codMedidaFilter}></vaadin-grid-filter>
           </vaadin-grid-sort-column>
-          <vaadin-grid-sort-column width="9em" path="codDiseno" header="Diseno de Neumatico">
+
+          <vaadin-grid-sort-column path="codDisenoDescripcion" header="Diseno de Neumatico">
+          <vaadin-grid-sort-column path="codDiseno" header="Diseno">
             <vaadin-grid-filter path="codDiseno" value=${this.codDisenoFilter}></vaadin-grid-filter>
           </vaadin-grid-sort-column>
           <vaadin-grid-sort-column
-            width="9em"
+            width="9rem"
             path="estado"
             header="Estado de Neumatico"
           ></vaadin-grid-sort-column>
           <vaadin-grid-sort-column
-            width="9em"
+            width="9rem"
             path="codProveedor"
             header="Proveedor de Neumatico"
           ></vaadin-grid-sort-column>
