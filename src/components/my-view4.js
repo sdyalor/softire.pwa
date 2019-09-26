@@ -4,7 +4,7 @@ import { PageViewElement } from './page-view-element.js';
 import { store } from '../store.js';
 import { tiresReducer } from '../reducers/tiresReducer.js';
 import { vehiclesReducer } from '../reducers/vehiclesReducer.js';
-import { tiresViewReducer } from '../reducers/viewsReducer .js';
+import { viewsReducer } from '../reducers/viewsReducer .js';
 // import { addDescriptionsToTires } from '../actions/viewsActions.js';
 import {
   getAllTires,
@@ -24,7 +24,7 @@ import {
 store.addReducers({
   tires: tiresReducer,
   vehicles: vehiclesReducer,
-  views: tiresViewReducer
+  views: viewsReducer
 });
 import './softireComponents/movements-element.js';
 //store.dispatch(getAllTires());

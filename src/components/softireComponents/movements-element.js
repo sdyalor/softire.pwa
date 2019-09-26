@@ -11,14 +11,20 @@ import { store } from '../../store.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import historyClass from './historyClass.js';
 import * as R from 'ramda/dist/ramda.js';
-import { addDescriptionsToTires } from '../../actions/viewsActions.js';
+import {
+  addDescriptionsToTires,
+  addDescriptionsToVehicles
+} from '../../actions/viewsActions.js';
 
 class MovementsElement extends connect(store)(LitElement) {
   fetchDetById(id) {
     const fetchURL = `https://azaryah.sdyalor.me/api/graphql`;
     return fetch(fetchURL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
       body: JSON.stringify({
         query: `
         query {
@@ -68,7 +74,8 @@ class MovementsElement extends connect(store)(LitElement) {
 
   async fetchNeumaticosDetBy(id) {
     return await this.fetchDetById(id).then(
-      NeumaticosDetArray => (this.codeTest = NeumaticosDetArray.snNeumaticosDetsById)
+      NeumaticosDetArray =>
+        (this.codeTest = NeumaticosDetArray.snNeumaticosDetsById)
     );
   }
   async historyClassCall() {
@@ -127,8 +134,36 @@ class MovementsElement extends connect(store)(LitElement) {
     if (state.tires.tireConditions.condicionesNeumatico) {
       console.log('state looks with conditions');
     }
-    if (state.tires.tires.neumaticos && state.tires.tireConditions.condicionesNeumatico) {
-      this.neumaticosView = R.map(this.toAddDescripcions.bind(null, this), this._tires);
+    if (
+      state.tires.tires.neumaticos &&
+      state.tires.tireConditions.condicionesNeumatico
+    ) {
+      this.neumaticosView = R.map(
+        this.toAddDescripcions.bind(null, this),
+        this._tires
+      );
+    }
+    if (
+      state.tires.tireBrands.marcaNeumatico &&
+      state.tires.tireModels.modeloNeumatico &&
+      state.tires.tireMeasures.medidaNeumatico &&
+      state.tires.tireDesigns.disenosNeumatico &&
+      state.tires.tires.neumaticos &&
+      state.views.tiresView < 1
+    ) {
+      console.log('all tires ok!!!!!');
+      store.dispatch(addDescriptionsToTires());
+    }
+    if (
+      state.vehicles.vehicles.vehiculo &&
+      state.vehicles.vehicleBrands.marcaVehiculo &&
+      state.vehicles.vehicleTypes.tipoVehiculo &&
+      state.vehicles.vehicleModels.modeloVehiculo &&
+      state.vehicles.vehicleConfigurations.configuracion &&
+      state.views.vehiclesView < 1
+    ) {
+      console.log('all vehicles ok!!!!!');
+      store.dispatch(addDescriptionsToVehicles());
     }
   }
   get inputEl() {
@@ -145,6 +180,7 @@ class MovementsElement extends connect(store)(LitElement) {
       @keydown="${e => console.log(e)}"
       >
       <button @click="${this.historyClassCall}" >Hellow</button>
+      <div>hixdaaxdx</div>
 
       <section>
       </div>
@@ -153,9 +189,14 @@ class MovementsElement extends connect(store)(LitElement) {
           padding: 1.5em;
         }
       </style>
-      <button @click="${() => console.log(this.neumaticosView)}" >getState</button>
-      <button @click="${() => console.log(this._tireBrands)}" > log brands </button>
-      <button @click="${() => store.dispatch(addDescriptionsToTires())}" > dispatch store </button>
+      <button @click="${() =>
+        console.log(this.neumaticosView)}" >getState</button>
+      <button @click="${() =>
+        console.log(this._tireBrands)}" > log brands </button>
+      <button @click="${() =>
+        store.dispatch(addDescriptionsToTires())}" > dispatch store </button>
+      <button @click="${() =>
+        store.dispatch(addDescriptionsToVehicles())}" > dispatch store </button>
     `;
   }
 }

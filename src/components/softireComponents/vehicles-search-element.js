@@ -48,10 +48,12 @@ class VehiclesSearchElement extends connect(store)(LitElement) {
 
   stateChanged(state) {
     this._vehicles = state.vehicles.vehicles.vehiculo;
+    this._vehiclesView = state.views.vehiclesView;
     this._vehicleBrands = state.vehicles.vehicleBrands.marcaVehiculo;
     this._vehicleTypes = state.vehicles.vehicleTypes.tipoVehiculo;
     this._vehicleModels = state.vehicles.vehicleModels.modeloVehiculo;
-    this._vehicleConfigurations = state.vehicles.vehicleConfigurations.configuracion;
+    this._vehicleConfigurations =
+      state.vehicles.vehicleConfigurations.configuracion;
   }
 
   render() {
@@ -66,7 +68,10 @@ class VehiclesSearchElement extends connect(store)(LitElement) {
           .items=${this._vehicles}
           @selected-item-changed="${e =>
             e.detail.value != null
-              ? (this.codVehiculoFilter = e.detail.value.codVehiculo.replace(/\s/g, ''))
+              ? (this.codVehiculoFilter = e.detail.value.codVehiculo.replace(
+                  /\s/g,
+                  ''
+                ))
               : (this.codVehiculoFilter = '')}"
           @change="${e => console.log(e)}"
           item-label-path="codVehiculo"
@@ -145,38 +150,99 @@ class VehiclesSearchElement extends connect(store)(LitElement) {
           theme="row-stripes"
           column-reordering-allowed
           multi-sort
-          .items=${this._vehicles}
+          .items=${this._vehiclesView}
         >
-          <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
-          <vaadin-grid-sort-column resizable width="9em" path="codVehiculo" header="Neumatico">
+          <vaadin-grid-selection-column
+            auto-select
+            frozen
+          ></vaadin-grid-selection-column>
+          <vaadin-grid-sort-column
+            resizable
+            width="9em"
+            path="codVehiculo"
+            header="Neumatico"
+          >
             <vaadin-grid-filter
               path="codVehiculo"
               value="${this.codVehiculoFilter}"
             ></vaadin-grid-filter>
           </vaadin-grid-sort-column>
-          <vaadin-grid-sort-column resizable width="9em" path="codMarca" header="Marca de Vehiculo">
-            <vaadin-grid-filter path="codMarca" value=${this.codMarcaFilter}></vaadin-grid-filter>
+
+          <vaadin-grid-sort-column
+            resizable
+            width="9em"
+            path="codMarcaDescripcion"
+            header="Marca de Vehiculo"
+          >
+          </vaadin-grid-sort-column>
+
+          <vaadin-grid-sort-column
+            resizable
+            width="9em"
+            path="codMarca"
+            header="Marca"
+          >
+            <vaadin-grid-filter
+              path="codMarca"
+              value=${this.codMarcaFilter}
+            ></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+
+          <vaadin-grid-sort-column
+            resizable
+            width="9em"
+            path="codModeloDescripcion"
+            flex-grow="2"
+            header="Modelo de Vehiculo"
+          >
           </vaadin-grid-sort-column>
           <vaadin-grid-sort-column
             resizable
             width="9em"
             path="codModelo"
             flex-grow="2"
-            header="Modelo de Vehiculo"
+            header="Modelo"
           >
-            <vaadin-grid-filter path="codModelo" value=${this.codModeloFilter}></vaadin-grid-filter>
+            <vaadin-grid-filter
+              path="codModelo"
+              value=${this.codModeloFilter}
+            ></vaadin-grid-filter>
           </vaadin-grid-sort-column>
 
-          <vaadin-grid-sort-column width="9em" path="codTipo" header="Tipo de Vehiculo">
-            <vaadin-grid-filter path="codTipo" value=${this.codTipoFilter}></vaadin-grid-filter>
+          <vaadin-grid-sort-column
+            width="9em"
+            path="codTipoDescripcion"
+            header="Tipo de Vehiculo"
+          >
           </vaadin-grid-sort-column>
-          <vaadin-grid-sort-column width="9em" path="placa" header="Placa de Vehiculo">
-            <vaadin-grid-filter path="placa" value=${this.codPlacaFilter}></vaadin-grid-filter>
+          <vaadin-grid-sort-column width="9em" path="codTipo" header="Tipo">
+            <vaadin-grid-filter
+              path="codTipo"
+              value=${this.codTipoFilter}
+            ></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+
+          <vaadin-grid-sort-column
+            width="9em"
+            path="placa"
+            header="Placa de Vehiculo"
+          >
+            <vaadin-grid-filter
+              path="placa"
+              value=${this.codPlacaFilter}
+            ></vaadin-grid-filter>
+          </vaadin-grid-sort-column>
+
+          <vaadin-grid-sort-column
+            width="9em"
+            path="codConfiguracionDescripcion"
+            header="Configuracion de Vehiculo"
+          >
           </vaadin-grid-sort-column>
           <vaadin-grid-sort-column
             width="9em"
             path="codConfiguracion"
-            header="Configuracion de Vehiculo"
+            header="Configuracion"
           >
             <vaadin-grid-filter
               path="codConfiguracion"

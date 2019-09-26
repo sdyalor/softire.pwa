@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { LitElement, html } from 'lit-element';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
@@ -30,7 +29,10 @@ class TiresSearchElement extends connect(store)(LitElement) {
      */
     this.fetchNeumaticosDetBy = fetch(`${this.fetchURL}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
       body: JSON.stringify({
         query: `
         query {
@@ -195,7 +197,9 @@ class TiresSearchElement extends connect(store)(LitElement) {
           </vaadin-grid-sort-column>
 
           <vaadin-grid-sort-column path="codMarca" header="Marca">
-            <vaadin-grid-filter path="codMarca" value=${this.codMarcaFilter}></vaadin-grid-filter>
+            <vaadin-grid-filter path="codMarca" value=${
+              this.codMarcaFilter
+            }></vaadin-grid-filter>
           </vaadin-grid-sort-column>
 
           <vaadin-grid-sort-column
@@ -209,7 +213,9 @@ class TiresSearchElement extends connect(store)(LitElement) {
             path="codModelo"
             header="Modelo"
           >
-            <vaadin-grid-filter path="codModelo" value=${this.codModeloFilter}></vaadin-grid-filter>
+            <vaadin-grid-filter path="codModelo" value=${
+              this.codModeloFilter
+            }></vaadin-grid-filter>
           </vaadin-grid-sort-column>
 
           <vaadin-grid-sort-column
@@ -219,12 +225,16 @@ class TiresSearchElement extends connect(store)(LitElement) {
           >
           </vaadin-grid-sort-column>
           <vaadin-grid-sort-column path="codMedida" header="Medida">
-            <vaadin-grid-filter path="codMedida" value=${this.codMedidaFilter}></vaadin-grid-filter>
+            <vaadin-grid-filter path="codMedida" value=${
+              this.codMedidaFilter
+            }></vaadin-grid-filter>
           </vaadin-grid-sort-column>
 
           <vaadin-grid-sort-column path="codDisenoDescripcion" header="Diseno de Neumatico">
           <vaadin-grid-sort-column path="codDiseno" header="Diseno">
-            <vaadin-grid-filter path="codDiseno" value=${this.codDisenoFilter}></vaadin-grid-filter>
+            <vaadin-grid-filter path="codDiseno" value=${
+              this.codDisenoFilter
+            }></vaadin-grid-filter>
           </vaadin-grid-sort-column>
           <vaadin-grid-sort-column
             width="9rem"

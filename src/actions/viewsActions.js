@@ -1,6 +1,7 @@
 import { store } from '../store.js';
-import * as R from 'ramda';
+import { find as rFind, map as rMap } from 'ramda';
 export const ADD_DESCRIPTIONS_TO_TIRES = 'ADD_DESCRIPTION_TO_TIRES';
+export const ADD_DESCRIPTIONS_TO_VEHICLES = 'ADD_DESCRIPTION_TO_VEHICLES';
 
 export const addDescriptionsToTires = () => dispatch => {
   if (
@@ -18,7 +19,13 @@ export const addDescriptionsToTires = () => dispatch => {
      */
     //CallBack Map Function with Brands Binded
     //AddDescriptionTo Returns a object tire with Descriptions
-    const addDescriptionTo = (brandsBinded, modelsBinded, measuresBinded, designsBinded, tire) => {
+    const addDescriptionTo = (
+      brandsBinded,
+      modelsBinded,
+      measuresBinded,
+      designsBinded,
+      tire
+    ) => {
       //select brand: brands and a tire returns a brand
       const selectBrand = (allBrands, aTire) => {
         //filterCallback return boolean from comparison, Comparison is between brandCodBrand tireCodBrand
@@ -29,28 +36,28 @@ export const addDescriptionsToTires = () => dispatch => {
         const filterCallback = (aTire, brandToFilter) =>
           aTire['codMarca'] === brandToFilter['codMarca'];
         //assumming that at least one brand matches
-        const brandThatMatches = R.find(filterCallback.bind(null, aTire));
+        const brandThatMatches = rFind(filterCallback.bind(null, aTire));
         const aBrand = brandThatMatches(allBrands);
         return aBrand;
       };
       const selectModel = (allModels, aTire) => {
         const filterCallback = (aTire, brandToFilter) =>
           aTire['codModelo'] === brandToFilter['codModelo'];
-        const modelThatMatches = R.find(filterCallback.bind(null, aTire));
+        const modelThatMatches = rFind(filterCallback.bind(null, aTire));
         const aBrand = modelThatMatches(allModels);
         return aBrand;
       };
       const selectMeasure = (allMeasures, aTire) => {
         const filterCallback = (aTire, measureToFilter) =>
           aTire['codMedida'] === measureToFilter['codMedida'];
-        const measureThatMatches = R.find(filterCallback.bind(null, aTire));
+        const measureThatMatches = rFind(filterCallback.bind(null, aTire));
         const aMeasure = measureThatMatches(allMeasures);
         return aMeasure;
       };
       const selectDesign = (allDesigns, aTire) => {
         const filterCallback = (aTire, designToFilter) =>
           aTire['codDiseno'] === designToFilter['codDiseno'];
-        const designThatMatches = R.find(filterCallback.bind(null, aTire));
+        const designThatMatches = rFind(filterCallback.bind(null, aTire));
         const aDesign = designThatMatches(allDesigns);
         return aDesign;
       };
@@ -59,7 +66,9 @@ export const addDescriptionsToTires = () => dispatch => {
         ...tire,
         codMarcaDescripcion: selectBrand(brandsBinded, tire)['descripcion'],
         codModeloDescripcion: selectModel(modelsBinded, tire)['descripcion'],
-        codMedidaDescripcion: selectMeasure(measuresBinded, tire)['descripcion'],
+        codMedidaDescripcion: selectMeasure(measuresBinded, tire)[
+          'descripcion'
+        ],
         codDisenoDescripcion: selectDesign(designsBinded, tire)['descripcion']
       };
     };
@@ -68,22 +77,114 @@ export const addDescriptionsToTires = () => dispatch => {
      * MAP Place
      */
 
-    tiresWithDescriptions = R.map(
-      addDescriptionTo.bind(null, _tiresBrands, _tiresModels, _tiresMeasures, _tiresDesings),
+    tiresWithDescriptions = rMap(
+      addDescriptionTo.bind(
+        null,
+        _tiresBrands,
+        _tiresModels,
+        _tiresMeasures,
+        _tiresDesings
+      ),
       _tires
     );
-    return dispatch({ type: ADD_DESCRIPTIONS_TO_TIRES, tiresView: tiresWithDescriptions });
+    return dispatch({
+      type: ADD_DESCRIPTIONS_TO_TIRES,
+      tiresView: tiresWithDescriptions
+    });
   }
 };
 
-// let neumaticosView = R.map(this.toAddDescripcions.bind(null, this), this._tires);
+export const addDescriptionsToVehicles = () => dispatch => {
+  if (
+    store.getState().vehicles.vehicles.vehiculo &&
+    store.getState().vehicles.vehicleTypes.tipoVehiculo
+  ) {
+    const _vehicleTypes = store.getState().vehicles.vehicleTypes.tipoVehiculo;
+    const _vehicleBrands = store.getState().vehicles.vehicleBrands
+      .marcaVehiculo;
+    const _vehicleModels = store.getState().vehicles.vehicleModels
+      .modeloVehiculo;
+    const _vehicleConfigurations = store.getState().vehicles
+      .vehicleConfigurations.configuracion;
+    const _vehicles = store.getState().vehicles.vehicles.vehiculo;
+    let vehiclesWithDescriptions = [];
 
-// function toAddDescripcions(othis, tire) {
-//   // R.find()
-//   const wrapper = othis._tireBrands;
-//   const callback = (fthis, brand) => brand['codMarca'] == fthis['codMarca'];
+    const addDescriptionTo = (
+      typesBinded,
+      brandsBinded,
+      modelsBinded,
+      confsBinded,
+      vehicle
+    ) => {
+      const selectByKey = (
+        sampleSpace,
+        selectorObject,
+        keyStringfindICO,
+        keyStringFilterO
+      ) => {
+        const filterCallback = (
+          filterObjectBinded,
+          keyStringfilterBinded,
+          keyStringIterableBinded,
+          findIterableCurrentSample
+        ) =>
+          filterObjectBinded[`${keyStringfilterBinded}`] ===
+          findIterableCurrentSample[`${keyStringIterableBinded}`];
 
-//   const OBrand = R.find(callback.bind(null, tire))(wrapper);
-//   // return { ...tire, added: wrapper };
-//   return { ...tire, codMarcaDescripcion: OBrand['descripcion'] };
-// }
+        const selectionThatMatches = rFind(
+          filterCallback.bind(
+            null,
+            selectorObject,
+            keyStringFilterO,
+            keyStringfindICO
+          )
+        );
+        const selection = selectionThatMatches(sampleSpace);
+        return selection;
+      };
+
+      return {
+        ...vehicle,
+        codTipoDescripcion: selectByKey(
+          typesBinded,
+          vehicle,
+          'codTipo',
+          'codTipo'
+        )['descripcion'],
+        codMarcaDescripcion: selectByKey(
+          brandsBinded,
+          vehicle,
+          'codMarca',
+          'codMarca'
+        )['descripcion'],
+        codModeloDescripcion: selectByKey(
+          modelsBinded,
+          vehicle,
+          'codModelo',
+          'codModelo'
+        )['descripcion'],
+        codConfiguracionDescripcion: selectByKey(
+          confsBinded,
+          vehicle,
+          'codConfi',
+          'codConfiguracion'
+        )['descripcion']
+      };
+    };
+
+    vehiclesWithDescriptions = rMap(
+      addDescriptionTo.bind(
+        null,
+        _vehicleTypes,
+        _vehicleBrands,
+        _vehicleModels,
+        _vehicleConfigurations
+      ),
+      _vehicles
+    );
+    return dispatch({
+      type: ADD_DESCRIPTIONS_TO_VEHICLES,
+      vehiclesView: vehiclesWithDescriptions
+    });
+  }
+};
