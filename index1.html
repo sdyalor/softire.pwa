@@ -41,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="My App">
 
     <!-- Homescreen icons -->
@@ -105,10 +105,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body>
     <my-app appTitle="my app"></my-app>
-    <script type="module" src="dist/index.js" ></script>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
+    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
+    <script type="module" src="dist/index.js"></script>
+    <!-- <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script> -->
     <!-- Built with love using PWA Starter Kit -->
   </body>
 </html>
