@@ -1,11 +1,5 @@
 /* eslint-disable no-console */
-import {
-  LitElement,
-  property,
-  customElement,
-  html,
-  css
-} from 'lit-element';
+import { LitElement, property, customElement, html } from 'lit-element';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-filter-column.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
@@ -21,11 +15,7 @@ import {
   addDescriptionsToTires,
   addDescriptionsToVehicles
 } from '../../actions/viewsActions';
-//@ts-ignore
-import jexcel from 'jexcel';
-import 'jsuites/dist/jsuites.js';
-import * as jsuitescss from 'jsuites/dist/jsuites.css';
-import * as jexcelcss from 'jexcel/dist/jexcel.css';
+
 
 @customElement('movements-element')
 export class MovementsElement extends connect(store)(LitElement) {
@@ -76,21 +66,9 @@ export class MovementsElement extends connect(store)(LitElement) {
   private history = {};
   private tireBrands: Array<any> = [];
   private neumaticosView: any = [];
-  private data = [
-    ['Jazz', 'Honda', '2019-02-12', '', true, '$ 2.000,00', '#777700'],
-    ['Civic', 'Honda', '2018-07-11', '', true, '$ 4.000,01', '#007777']
-  ];
 
   static get styles() {
-    return [
-      SharedStyles,
-      css`
-        ${jexcelcss}
-      `,
-      css`
-        ${jsuitescss}
-      `
-    ];
+    return [SharedStyles];
   }
 
   async fetchNeumaticosDetBy(id: any) {
@@ -200,34 +178,11 @@ export class MovementsElement extends connect(store)(LitElement) {
   firstUpdated() {
     console.log('updated first');
     //@ts-ignore
-    jexcel(this.shadowRoot.getElementById('jexcel'), {
-      data: this.data,
-      columns: [
-        { type: 'text', title: 'Car', width: 120 },
-        {
-          type: 'dropdown',
-          title: 'Make',
-          width: 200,
-          source: ['Alfa Romeo', 'Audi', 'Bmw']
-        },
-        { type: 'calendar', title: 'Available', width: 200 },
-        { type: 'image', title: 'Photo', width: 120 },
-        { type: 'checkbox', title: 'Stock', width: 80 },
-        {
-          type: 'numeric',
-          title: 'Price',
-          width: 100,
-          mask: '$ #.##,00',
-          decimal: ','
-        },
-        { type: 'color', width: 100, render: 'square' }
-      ]
-    });
   }
   render() {
     //@ts-ignore
     return html`
-      <section>
+      <!-- <section>
         <h1>Historial de Vehiculos</h1>
       </section>
       <input id=inputID 
@@ -245,8 +200,8 @@ export class MovementsElement extends connect(store)(LitElement) {
         #container {
           padding: 1.5em;
         }
-      </style>
-      <button @click="${() =>
+      </style> -->
+      <!-- <button @click="${() =>
         console.log(this.neumaticosView)}" >getState</button>
       <button @click="${() =>
         console.log(this._tireBrands)}" > log brands </button>
@@ -257,9 +212,7 @@ export class MovementsElement extends connect(store)(LitElement) {
       <button @click="${() =>
         store.dispatch(
           addDescriptionsToVehicles()
-        )}" > dispatch store </button>
-      
-      <div id='jexcel'></div>
+        )}" > dispatch store </button> -->
     `;
   }
 }

@@ -28,8 +28,6 @@ import thunk, { ThunkMiddleware } from 'redux-thunk';
 import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
 
 import app, { AppState } from './reducers/app';
-import { CounterState } from './reducers/counter';
-import { ShopState } from './reducers/shop';
 //@ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TiresState } from './reducers/tiresReducer';
@@ -40,22 +38,16 @@ import { VehiclesState } from './reducers/vehiclesReducer';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ViewsState } from './reducers/viewsReducer';
 import { AppAction } from './actions/app';
-import { CounterAction } from './actions/counter';
-import { ShopAction } from './actions/shop';
 import { TiresAction } from './actions/tiresActions';
 import { VehiclesAction } from './actions/vehiclesActions';
 import { ViewsAction } from './actions/viewsActions';
 // Overall state extends static states and partials lazy states.
 export interface RootState {
   app?: AppState;
-  counter?: CounterState;
-  shop?: ShopState;
 }
 
 export type RootAction =
   | AppAction
-  | CounterAction
-  | ShopAction
   | TiresAction
   | VehiclesAction
   | ViewsAction;

@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
-import { html } from 'lit-element';
-import { PageViewElement } from './page-view-element';
+import { html, LitElement } from 'lit-element';
 import { store } from '../store';
 import { tiresReducer } from '../reducers/tiresReducer';
 import { vehiclesReducer } from '../reducers/vehiclesReducer';
@@ -41,8 +40,9 @@ import '@vaadin/vaadin-grid/vaadin-grid-filter.js';
 import '@vaadin/vaadin-combo-box/vaadin-combo-box.js';
 import './softireComponents/tires-search-element';
 import './softireComponents/vehicles-search-element';
+import './softireComponents/history-dataframe';
 
-class MyView4 extends connect(store)(PageViewElement) {
+class MyView4 extends connect(store)(LitElement) {
   vehiculosPage: any;
   vehiculos: any;
 
@@ -88,6 +88,7 @@ class MyView4 extends connect(store)(PageViewElement) {
       <tires-search-element></tires-search-element>
       <vehicles-search-element></vehicles-search-element>
       <movements-element></movements-element>
+      <history-dataframe></history-dataframe>
     `;
   }
   // updateItemsFromPage(innerText: any) {

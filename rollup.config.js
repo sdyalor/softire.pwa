@@ -3,7 +3,8 @@ import babel from 'rollup-plugin-babel';
 import common from 'rollup-plugin-commonjs';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import postcss from 'rollup-plugin-postcss';
+// import postcss from 'rollup-plugin-postcss';
+import litcss from 'rollup-plugin-lit-css';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const babelRc = {
@@ -13,13 +14,13 @@ const babelRc = {
       {
         modules: false,
         targets: {
-          esmodules: true
+          // esmodules: true
           // "chrome": 71
-          // "ie": 11
+          ie: 11
         },
-        useBuiltIns: 'entry',
-        corejs: 3,
-        debug: true
+        // useBuiltIns: 'entry',
+        // corejs: 3,
+        // debug: true
       }
     ],
     '@babel/preset-typescript'
@@ -59,10 +60,11 @@ export default {
     common(),
     resolve({ extensions }),
     babel(babelConf),
-    postcss({
-      plugins: [],
-      modules: true,
-      extract: true
-    })
+    // postcss({
+    //   plugins: [],
+    //   modules: true,
+    //   extract: true
+    // })
+    litcss({ uglify: true })
   ]
 };

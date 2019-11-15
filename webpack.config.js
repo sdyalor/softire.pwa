@@ -1,18 +1,52 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+
+const extensions = ['.js', '.jsx', '.ts', '.tsx'];
+const babelRc = {
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        modules: false,
+        targets: {
+          // esmodules: true
+          // "chrome": 71
+          ie: 11
+        },
+        useBuiltIns: 'entry',
+        corejs: 3
+
+        // debug: true
+      }
+    ],
+    '@babel/preset-typescript'
+  ],
+  plugins: [
+    ['@babel/plugin-syntax-dynamic-import'],
+    [
+      '@babel/plugin-proposal-decorators',
+      { decoratorsBeforeExport: true }
+      // { legacy: true }
+    ],
+    ['@babel/plugin-proposal-class-properties', { loose: true }]
+    // [
+    //   '@babel/plugin-transform-runtime',
+    //   {
+    //     absoluteRuntime: false,
+    //     corejs: 3,
+    //     helpers: true,
+    //     regenerator: true,
+    //     useESModules: false
+    //   }
+    // ]
+  ]
+};
 
 module.exports = {
+  devtool: 'source-map',
   devServer: {
     historyApiFallback: true
   },
@@ -21,19 +55,33 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|js)x?$/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-env', {targets: {ie: '11'}}]
-            ],
-            plugins: ['@babel/plugin-syntax-dynamic-import']
+        exclude: [
+          /@babel(?:\/|\\{1,2})runtime|core-js/,
+          /canvas-datagrid/
+        ],
+        // include: [
+        //   path.resolve(__dirname, 'src')
+        //   // /node_modules(?:\/|\\)lit-element|lit-html/
+        //   // /node_modules(?:\/|\\)lit-element|@components|lit-html|@polymer|pwa-helpers|@vaadin/
+          // /node_modules\/(?!(lit-html|@polymer|pwa-helpers)\/).*/
+        // ],
+        use: [
+          {
+            loader: 'thread-loader',
+            options: {}
+          },
+          {
+            loader: 'cache-loader'
+          },
+          {
+            loader: 'babel-loader',
+            options: babelRc
           }
-        }
+        ]
       },
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader'
+        test: /\.html$/,
+        loader: 'html-loader'
       }
     ]
   },
@@ -49,24 +97,24 @@ module.exports = {
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
       template: 'index.html'
-    }),
-    new WorkboxWebpackPlugin.GenerateSW({
-      include: ['index.html', 'manifest.json', /\.js$/],
-      exclude: [/\/@webcomponents\/webcomponentsjs\//],
-      navigateFallback: 'index.html',
-      swDest: 'service-worker.js',
-      clientsClaim: true,
-      skipWaiting: true,
-      runtimeCaching: [
-        {
-          urlPattern: /\/@webcomponents\/webcomponentsjs\//,
-          handler: 'staleWhileRevalidate'
-        },
-        {
-          urlPattern: /^https:\/\/fonts.gstatic.com\//,
-          handler: 'staleWhileRevalidate'
-        }
-      ]
     })
+    // new WorkboxWebpackPlugin.GenerateSW({
+    //   include: ['index.html', 'manifest.json', /\.js$/],
+    //   exclude: [/\/@webcomponents\/webcomponentsjs\//],
+    //   navigateFallback: 'index.html',
+    //   swDest: 'service-worker.js',
+    //   clientsClaim: true,
+    //   skipWaiting: true,
+    //   runtimeCaching: [
+    //     {
+    //       urlPattern: /\/@webcomponents\/webcomponentsjs\//,
+    //       handler: 'staleWhileRevalidate'
+    //     },
+    //     {
+    //       urlPattern: /^https:\/\/fonts.gstatic.com\//,
+    //       handler: 'staleWhileRevalidate'
+    //     }
+    //   ]
+    // })
   ]
 };
